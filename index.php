@@ -12,20 +12,12 @@ ini_set('display_errors', '1');
 <body>
 
 <div id="container"><div>
-  <?php
-    $output = shell_exec("./poker");
-    preg_match("/Random Hand: (.+?)\n/si", $output, $matches);
-    preg_match_all("/\w\w/si", $matches[1], $matches);
-    print "<ul class='clearfix'>";
-    foreach($matches[0] as $card) {
-      $class = substr($card, -1)." ";
-      $class .= "c".substr($card, 0, 1);
-      print "<li class='card {$class}'></li>";
-    }
-    print "</ul>";
-    print "<pre>".$output."</pre>";
-    
-  ?>
+  <a href="#" id="deal-cards" class="button">Deal Cards</a>
+  <a href="#" id="analyze" class="button">Analyze</a>
+  <ul id="hand" class="clearfix"></ul>
+  
+  
+  <div id="results"></div>
 </div></div>
 
 </body>
