@@ -49,6 +49,7 @@ p {font-size: 13px;}
 
 .results {width: 300px; margin: 0 0 20px 0; float: right; clear: right; color: #3d3d3d;}
 .results h2 {padding: 8px 10px; background: url(../images/head_bg.png) top left repeat-x; border: 1px solid #dfdfdf; border-bottom: none; border-radius: 3px 3px 0 0;}
+.results h2 span {float: right; font-weight: bold;}
 .results .content {padding: 20px; background: #fafafa; color: #000; border: 1px solid #dfdfdf; border-radius: 0 0 3px 3px}
 
 .results dl {font-size: 13px;}
@@ -58,7 +59,7 @@ p {font-size: 13px;}
 .results dd:last-child {margin: 0;}
 
 #raw-results {clear: both;}
-#raw-results textarea {width: 50%; min-height: 300px;}
+#raw-results textarea {width: 100%; min-height: 300px;}
 
 /* Card Sprite */
 .card {height: 98px; width: 73px; margin: 0 10px 20px 0; background: url(../images/card_sprite.png) top left no-repeat; float: left;}

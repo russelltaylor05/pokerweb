@@ -52,6 +52,11 @@ deck.push("Qc");
 deck.push("Kc");
 deck.push("Ac");
 
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
 
 function dealCards() 
 {
@@ -127,7 +132,17 @@ function parseParams(hand, throwAway)
   return params;
 }
 
+/***********/
+/* RESULTS */
+/***********/
+
 function buildAnalyzeResults(responseText)
+{
+  var obj = $.parseJSON(responseText);
+  return obj.Win + "%";
+}
+
+function buildAnalyzeDetails(responseText)
 {
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
@@ -138,7 +153,7 @@ function buildAnalyzeResults(responseText)
   html += "</dl>"
   return html;
 }
-function buildAnalyzeCPUResults(responseText)
+function buildAnalyzeCPUDetails(responseText)
 {
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
@@ -146,15 +161,28 @@ function buildAnalyzeCPUResults(responseText)
   html += "</dl>"    
   return html;  
 }
-function buildGPUThrowResults(responseText)
+function buildThrowResults(responseText)
+{
+  var obj = $.parseJSON(responseText);
+  return obj.Win + "%";
+}
+function buildGPUThrowDetails(responseText)
 {
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
-  html += "<dt>CPU Time</dt><dd>"+obj.Time+"ms</dd>";
+
+  html += "<dt>Odds</dt><dd>" + obj.Win + "%</dd>";
+  html += "<dt>GPU Time</dt><dd>" + obj.Kernel_Time + "ms</dd>";
+  html += "<dt>CPU Time</dt><dd>12 minutes</dd>";
+  html += "<dt>Thread Count</dt><dd>" + numberWithCommas(obj.Thread_cnt) +"</dd>";
   html += "</dl>"    
   return html;  
 }
 
+
+/**********/
+/* MAIN   */
+/**********/
 
 
 $(document).ready(function() {
@@ -172,6 +200,8 @@ $(document).ready(function() {
     displayHand(hand);
     $("#analyze-results .content").html("<p>No Results</p>");
     $("#throw-results .content").html("<p>No Results</p>");      
+    $("#throw-results h2 span").html("");    
+    $("#analyze-results h2 span").html("");    
   });
 
   $("#analyze-hand").click(function(event){
@@ -184,11 +214,14 @@ $(document).ready(function() {
     var cpuParams = params + "&action=cpu_analyze";
 
     $("#analyze-results .content").html("<p>Loading</p>");
+    $("#analyze-results h2 span").html("");
     $.get(  
       loadUrl, gpuParams,  
       function(responseText){  
         $("#raw-results textarea").prepend(responseText + "\n");        
-        $("#analyze-results .content").prepend(buildAnalyzeResults(responseText));
+        $("#analyze-results .content").prepend(buildAnalyzeDetails(responseText));
+        $("#analyze-results h2 span").html(buildAnalyzeResults(responseText));
+        
       },  
       "html"
     );
@@ -197,7 +230,7 @@ $(document).ready(function() {
       loadUrl, cpuParams,  
       function(responseText){  
         $("#raw-results textarea").prepend(responseText + "\n");  
-        $("#analyze-results .content").html(buildAnalyzeCPUResults(responseText));        
+        $("#analyze-results .content").html(buildAnalyzeCPUDetails(responseText));        
       },  
       "html"
     );
@@ -213,12 +246,13 @@ $(document).ready(function() {
     params += "&action=gpu_throw";
     
     $("#throw-results .content").html("<p>Loading</p>");
+    $("#throw-results h2 span").html("");
     $.get( 
       loadUrl, params,  
       function(responseText){  
         $("#raw-results textarea").prepend(responseText + "\n");  
-        $("#throw-results .content").html(buildGPUThrowResults(responseText));        
-        console.log(responseText);
+        $("#throw-results .content").html(buildGPUThrowDetails(responseText));        
+        $("#throw-results h2 span").html(buildThrowResults(responseText));        
       },  
       "html"
     );
