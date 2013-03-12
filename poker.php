@@ -3,6 +3,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+$cmd1 = NULL;
+$cmd2 = NULL;
+
 $c1 = $_GET['c1'];
 $c2 = $_GET['c2'];
 $c3 = $_GET['c3'];
@@ -17,12 +20,18 @@ $t5 = (isset($_GET['t5'])) ? $_GET['t5'] : 0;
 
 $action = $_GET['action'];
 
-if($action == "analyze") {
-  $cmd = "./analyze_gpu --c1 {$c1} --c2 {$c2} --c3 {$c3} --c4 {$c4} --c5 {$c5}";
+if($action == "gpu_analyze") {
+  $cmd = "./exec/analyze_gpu --c1 {$c1} --c2 {$c2} --c3 {$c3} --c4 {$c4} --c5 {$c5}";
 }
 
+if($action == "cpu_analyze") {
+  $cmd = "./exec/cpu_analyze --c1 {$c1} --c2 {$c2} --c3 {$c3} --c4 {$c4} --c5 {$c5}";
+}
+
+  
+
 if($action == "throw") {
-  $cmd = "./throw_gpu --c1 {$c1} --c2 {$c2} --c3 {$c3} --c4 {$c4} --c5 {$c5}";
+  $cmd = "./exec/throw_gpu --c1 {$c1} --c2 {$c2} --c3 {$c3} --c4 {$c4} --c5 {$c5}";
 
   if($t1) {
     $cmd .= " --t1 {$t1}";
@@ -41,13 +50,11 @@ if($action == "throw") {
   }
 }
 
+if ($cmd) {
 
-print $cmd;
-
-$output = shell_exec($cmd);
-
-print "<pre>";
-print $output;
-print "</pre>";
+  $output = shell_exec($cmd);
+  $output = "\"command\" : \"{$cmd}\",\n".$output;
+  print "{\n".$output."}";
+}
 
 ?>

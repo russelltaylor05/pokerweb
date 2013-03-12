@@ -80,7 +80,6 @@ function grabThrowaway() {
       results.push(card[1] + suit[1]);
     }
   });
-  console.log(results);
   return results;
 } 
 
@@ -97,8 +96,6 @@ function displayHand(hand) {
 
   $("#hand").html(html);
   throwActions();
-
-
 }
 
 function throwActions(){
@@ -128,7 +125,21 @@ function parseParams(hand, throwAway)
     params += "&t" + tIndex +"=" + throwAway[i];  
   }
   return params;
+}
 
+function showAnalyzeResults(responseText)
+{
+  var json = '{"result":true,"count":1}';
+  var obj = $.parseJSON(responseText);
+  var html= "<dl>";
+  
+  html += "<dt>Rank</dt><dd>"+obj.Rank+"</dd>";
+  html += "<dt>Odds</dt><dd>"+obj.Win+"%</dd>";
+  html += "<dt>Kernel Time</dt><dd>"+obj.Kernel_Time+"ms</dd>";
+  html += "<dt>Comparisons</dt><dd>"+obj.Analyze_Res+"</dd>";
+    
+  return html;
+  
 }
 
 
@@ -144,20 +155,37 @@ $(document).ready(function() {
   $("#deal-cards").click(function(event){
     event.preventDefault();
     hand = dealCards();
-    displayHand(hand);    
+    displayHand(hand);
+    $("#analyze-results .content").html("<p>No Results</p>");
+    $("#throw-results .content").html("<p>No Results</p>");      
   });
 
   $("#analyze-hand").click(function(event){
-    event.preventDefault();  
+    event.preventDefault();
     var tIndex;
     throwAway =  grabThrowaway();
     loadUrl = 'poker.php';
     var params = parseParams(hand, throwAway);
-    params += "&action=analyze";
-    
-    $("#analyze-results .content")  
-        .html("loading")  
-        .load(loadUrl, params);      
+    var gpuParams = params + "&action=gpu_analyze";
+    var cpuParams = params + "&action=cpu_analyze";
+
+    $.get(  
+      loadUrl, gpuParams,  
+      function(responseText){  
+        $("#raw-results textarea").prepend(responseText + "\n");  
+        $("#analyze-results .content").html(showAnalyzeResults(responseText));
+      },  
+      "html"
+    );
+
+    $.get(  
+      loadUrl, cpuParams,  
+      function(responseText){  
+        $("#raw-results textarea").prepend(responseText + "\n");  
+      },  
+      "html"
+    );     
+
   });
   
   

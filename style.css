@@ -29,12 +29,15 @@ blockquote:before, blockquote:after,
 q:before, q:after { content: ''; content: none;}
 table { border-collapse: collapse; border-spacing: 0;}
 
+h1, h2, h3 {font-family: Georgia; color: #3d3d3d;}
 
 body {padding: 30px; background: url(../images/back5.jpg) top left repeat;}
 
+p {font-size: 13px;}
+
 #container {width: 100%; min-height:500px; margin: 0 auto; background: rgba(0,0,0,.2); border-radius: 10px; color: #fff; box-shadow: inset 0 0 5px rgba(0,0,0,.4);}
 #container > div {padding: 20px;}
-#container .left {width: 50%; float: left;}
+#container .left {width: 50%; margin: 0 0 30px 0;  float: left;}
 #container .right {width: 50%; float: right ;}
 
 #deal-cards {padding: 10px 20px; margin: 0 0 30px 0; display: inline-block;}
@@ -44,8 +47,18 @@ body {padding: 30px; background: url(../images/back5.jpg) top left repeat;}
 
 #hand {padding: 15px 0;}
 
-.results {width: 300px; margin: 0 0 20px 0; padding: 10px;  float: right; clear: right; background: #efefef; color: #000; border: 1px solid #ccc;}
-.results {border-radius: 10px;}
+.results {width: 300px; margin: 0 0 20px 0; float: right; clear: right; color: #3d3d3d;}
+.results h2 {padding: 8px 10px; background: url(../images/head_bg.png) top left repeat-x; border: 1px solid #dfdfdf; border-bottom: none; border-radius: 3px 3px 0 0;}
+.results .content {padding: 20px; background: #fafafa; color: #000; border: 1px solid #dfdfdf; border-radius: 0 0 3px 3px}
+
+.results dl {font-size: 13px;}
+.results dt {width: 50%; margin: 0 0 8px 0; float: left; clear: left; color: #555;}
+.results dd {margin: 0 0 8px 0;}
+.results dt:last-child {margin: 0;}
+.results dd:last-child {margin: 0;}
+
+#raw-results {clear: both;}
+#raw-results textarea {width: 50%; min-height: 300px;}
 
 /* Card Sprite */
 .card {height: 98px; width: 73px; margin: 0 10px 20px 0; background: url(../images/card_sprite.png) top left no-repeat; float: left;}
@@ -139,6 +152,7 @@ body {padding: 30px; background: url(../images/back5.jpg) top left repeat;}
 
 
 /* new clearfix */
+.results dl:after,
 .clearfix:after {
 	visibility: hidden;
 	display: block;

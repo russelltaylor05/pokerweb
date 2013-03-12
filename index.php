@@ -17,12 +17,12 @@ ini_set('display_errors', '1');
   <div class="right">
     <div id="analyze-results" class="results">
       <h2>Hand Results</h2>
-      <div class="content"></div>
+      <div class="content"><p>NO Results</p></div>
     </div>
   
     <div id="throw-results" class="results">
       <h2>Throw Away Results</h2>
-      <div class="content"></div>
+      <div class="content"><p>NO Results</p></div>
     </div>
   </div>
 
@@ -36,7 +36,9 @@ ini_set('display_errors', '1');
   </div>
 
   
-  <div id="raw-results"></div>
+  <div id="raw-results">
+    <textarea></textarea>
+  </div>
 </div></div>
 
 </body>
