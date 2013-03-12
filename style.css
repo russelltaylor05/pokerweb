@@ -22,7 +22,7 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-body {line-height: 1;}
+body {line-height: 1; font-family: Lato}
 ol, ul { list-style: none;}
 blockquote, q { quotes: none;}
 blockquote:before, blockquote:after,
@@ -32,30 +32,43 @@ table { border-collapse: collapse; border-spacing: 0;}
 
 body {padding: 30px; background: url(../images/back5.jpg) top left repeat;}
 
-#container {width: 100%; margin: 0 auto; background: rgba(0,0,0,.2); border-radius: 10px; color: #fff; box-shadow: inset 0 0 5px rgba(0,0,0,.4);}
+#container {width: 100%; min-height:500px; margin: 0 auto; background: rgba(0,0,0,.2); border-radius: 10px; color: #fff; box-shadow: inset 0 0 5px rgba(0,0,0,.4);}
 #container > div {padding: 20px;}
+#container .left {width: 50%; float: left;}
+#container .right {width: 50%; float: right ;}
 
-#deal-cards {padding: 10px 20px; margin: 0 0 20px 0; display: inline-block;}
+#deal-cards {padding: 10px 20px; margin: 0 0 30px 0; display: inline-block;}
+#analyze {padding: 10px 20px; margin: 0 0 20px 0; display: inline-block;}
 
+.analyze-action {margin: 0 10px 15px 0;}
 
+#hand {padding: 15px 0;}
+
+.results {width: 300px; margin: 0 0 20px 0; padding: 10px;  float: right; clear: right; background: #efefef; color: #000; border: 1px solid #ccc;}
+.results {border-radius: 10px;}
 
 /* Card Sprite */
 .card {height: 98px; width: 73px; margin: 0 10px 20px 0; background: url(../images/card_sprite.png) top left no-repeat; float: left;}
-.card.s {background-position-y: -98px;}
-.card.h {background-position-y: -196px;}
-.card.d {background-position-y: -294px;}
-.card.c2 {background-position-x: -73px;}
-.card.c3 {background-position-x: -146px;}
-.card.c4 {background-position-x: -219px;}
-.card.c5 {background-position-x: -292px;}
-.card.c6 {background-position-x: -365px;}
-.card.c7 {background-position-x: -438px;}
-.card.c8 {background-position-x: -511px;}
-.card.c9 {background-position-x: -584px;}
-.card.cT {background-position-x: -657px;}
-.card.cJ {background-position-x: -730px;}
-.card.cQ {background-position-x: -803px;}
-.card.cK {background-position-x: -876px;}
+.card.throwaway {margin-top: -20px;}
+.card:hover {cursor: pointer;}
+.card.suit-s {background-position-y: -98px;}
+.card.suit-h {background-position-y: -196px;}
+.card.suit-d {background-position-y: -294px;}
+.card.card-2 {background-position-x: -73px;}
+.card.card-3 {background-position-x: -146px;}
+.card.card-4 {background-position-x: -219px;}
+.card.card-5 {background-position-x: -292px;}
+.card.card-6 {background-position-x: -365px;}
+.card.card-7 {background-position-x: -438px;}
+.card.card-8 {background-position-x: -511px;}
+.card.card-9 {background-position-x: -584px;}
+.card.card-T {background-position-x: -657px;}
+.card.card-J {background-position-x: -730px;}
+.card.card-Q {background-position-x: -803px;}
+.card.card-K {background-position-x: -876px;}
+
+
+
 
 
 /* button */
@@ -91,6 +104,39 @@ body {padding: 30px; background: url(../images/back5.jpg) top left repeat;}
 	position:relative;
 	top:1px;
 }
+
+.deal {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #ffffff;
+	padding: 10px 20px;
+	text-decoration: none;
+	background: -moz-linear-gradient(
+		top,
+		#136aa4 0%,
+		#015892);
+	background: -webkit-gradient(
+		linear, left top, left bottom, 
+		from(#136aa4),
+		to(#015892));
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #035a94;
+	-moz-box-shadow:
+		0px 1px 0px rgba(026,026,026,0.5),
+		inset 0px 0px 0px rgba(255,255,255,0.6);
+	-webkit-box-shadow:
+		0px 1px 0px rgba(026,026,026,0.5),
+		inset 0px 0px 0px rgba(255,255,255,0.6);
+	box-shadow:
+		0px 1px 0px rgba(026,026,026,0.5),
+		inset 0px 0px 0px rgba(255,255,255,0.6);
+	text-shadow:
+		0px -1px 0px rgba(000,000,000,1),
+		0px 1px 0px rgba(255,255,255,0.2);
+}
+
 
 /* new clearfix */
 .clearfix:after {

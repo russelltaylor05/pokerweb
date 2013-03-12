@@ -56,12 +56,33 @@ deck.push("Ac");
 function dealCards() 
 {
   var hand = Array();
+  var n, index;
   
   for(var i = 0; i < 5; i++){
-    hand[i] = deck[Math.floor(Math.random()*51)];
-  }    
+    index = 1;
+    while(index > 0) {
+      n = Math.floor(Math.random()*51);
+      index = hand.indexOf(deck[n]);
+    }
+    hand[i] = deck[n];
+  }
   return hand;
 }
+
+function grabThrowaway() {
+  var card, suit;
+  var results = Array()
+
+  $("li.card").each(function( key, value ) {
+    if($(this).hasClass('throwaway')) {
+      card = $(this).attr("class").match(/card-(\w)/i);
+      suit = $(this).attr("class").match(/suit-(\w)/i);
+      results.push(card[1] + suit[1]);
+    }
+  });
+  console.log(results);
+  return results;
+} 
 
 function displayHand(hand) {
   var liClass = "";
@@ -69,13 +90,44 @@ function displayHand(hand) {
   
   for(card in hand) {
     liClass = "card ";
-    liClass += "c" + hand[card].charAt(0) + " ";
-    liClass += hand[card].charAt(1);
+    liClass += "card-" + hand[card].charAt(0) + " ";
+    liClass += "suit-" + hand[card].charAt(1);
     html += "<li class='" + liClass + "'></li>";
   }
 
   $("#hand").html(html);
+  throwActions();
 
+
+}
+
+function throwActions(){
+
+  $(".card").click(function(event){
+    event.preventDefault();      
+    if($(this).hasClass("throwaway")) {
+      $(this).removeClass("throwaway")
+    } else {
+      $(this).addClass("throwaway")    
+    }
+  });
+}
+
+function parseParams(hand, throwAway)
+{
+  var i, tIndex, params;
+  
+  params = "c1=" + hand[0];
+  params += "&c2=" + hand[1];
+  params += "&c3=" + hand[2];
+  params += "&c4=" + hand[3];
+  params += "&c5=" + hand[4];
+  
+  for(i in throwAway) {
+    tIndex = parseInt(i) + parseInt(1);  
+    params += "&t" + tIndex +"=" + throwAway[i];  
+  }
+  return params;
 
 }
 
@@ -84,26 +136,40 @@ $(document).ready(function() {
 
 
   var hand = dealCards();
+  var throwAway;
+
   displayHand(hand);
+  throwActions();
   
   $("#deal-cards").click(function(event){
     event.preventDefault();
     hand = dealCards();
     displayHand(hand);    
   });
-  
-  
-  $("#analyze").click(function(event){
+
+  $("#analyze-hand").click(function(event){
     event.preventDefault();  
-    
+    var tIndex;
+    throwAway =  grabThrowaway();
     loadUrl = 'poker.php';
-    params = "c1=" + hand[0];
-    params += "&c2=" + hand[1];
-    params += "&c3=" + hand[2];
-    params += "&c4=" + hand[3];
-    params += "&c5=" + hand[4];
+    var params = parseParams(hand, throwAway);
+    params += "&action=analyze";
     
-    $("#results")  
+    $("#analyze-results .content")  
+        .html("loading")  
+        .load(loadUrl, params);      
+  });
+  
+  
+  $("#analyze-throw").click(function(event){
+    event.preventDefault();  
+    var tIndex;
+    throwAway =  grabThrowaway();
+    loadUrl = 'poker.php';
+    var params = parseParams(hand, throwAway);
+    params += "&action=throw";
+    
+    $("#raw-results")  
         .html("loading")  
         .load(loadUrl, params);      
   });
