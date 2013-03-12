@@ -28,9 +28,7 @@ if($action == "cpu_analyze") {
   $cmd = "./exec/cpu_analyze --c1 {$c1} --c2 {$c2} --c3 {$c3} --c4 {$c4} --c5 {$c5}";
 }
 
-  
-
-if($action == "throw") {
+if($action == "gpu_throw") {
   $cmd = "./exec/throw_gpu --c1 {$c1} --c2 {$c2} --c3 {$c3} --c4 {$c4} --c5 {$c5}";
 
   if($t1) {

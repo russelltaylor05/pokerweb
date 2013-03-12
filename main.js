@@ -127,20 +127,34 @@ function parseParams(hand, throwAway)
   return params;
 }
 
-function showAnalyzeResults(responseText)
+function buildAnalyzeResults(responseText)
 {
-  var json = '{"result":true,"count":1}';
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
-  
   html += "<dt>Rank</dt><dd>"+obj.Rank+"</dd>";
   html += "<dt>Odds</dt><dd>"+obj.Win+"%</dd>";
   html += "<dt>Kernel Time</dt><dd>"+obj.Kernel_Time+"ms</dd>";
   html += "<dt>Comparisons</dt><dd>"+obj.Analyze_Res+"</dd>";
-    
+  html += "</dl>"
   return html;
-  
 }
+function buildAnalyzeCPUResults(responseText)
+{
+  var obj = $.parseJSON(responseText);
+  var html= "<dl>";
+  html += "<dt>CPU Time</dt><dd>"+obj.Time+"ms</dd>";
+  html += "</dl>"    
+  return html;  
+}
+function buildGPUThrowResults(responseText)
+{
+  var obj = $.parseJSON(responseText);
+  var html= "<dl>";
+  html += "<dt>CPU Time</dt><dd>"+obj.Time+"ms</dd>";
+  html += "</dl>"    
+  return html;  
+}
+
 
 
 $(document).ready(function() {
@@ -169,11 +183,12 @@ $(document).ready(function() {
     var gpuParams = params + "&action=gpu_analyze";
     var cpuParams = params + "&action=cpu_analyze";
 
+    $("#analyze-results .content").html("<p>Loading</p>");
     $.get(  
       loadUrl, gpuParams,  
       function(responseText){  
-        $("#raw-results textarea").prepend(responseText + "\n");  
-        $("#analyze-results .content").html(showAnalyzeResults(responseText));
+        $("#raw-results textarea").prepend(responseText + "\n");        
+        $("#analyze-results .content").prepend(buildAnalyzeResults(responseText));
       },  
       "html"
     );
@@ -182,25 +197,31 @@ $(document).ready(function() {
       loadUrl, cpuParams,  
       function(responseText){  
         $("#raw-results textarea").prepend(responseText + "\n");  
+        $("#analyze-results .content").html(buildAnalyzeCPUResults(responseText));        
       },  
       "html"
-    );     
-
+    );
   });
   
   
   $("#analyze-throw").click(function(event){
     event.preventDefault();  
     var tIndex;
-    throwAway =  grabThrowaway();
-    loadUrl = 'poker.php';
+    var throwAway =  grabThrowaway();
+    var loadUrl = 'poker.php';
     var params = parseParams(hand, throwAway);
-    params += "&action=throw";
+    params += "&action=gpu_throw";
     
-    $("#raw-results")  
-        .html("loading")  
-        .load(loadUrl, params);      
-  });
-  
+    $("#throw-results .content").html("<p>Loading</p>");
+    $.get( 
+      loadUrl, params,  
+      function(responseText){  
+        $("#raw-results textarea").prepend(responseText + "\n");  
+        $("#throw-results .content").html(buildGPUThrowResults(responseText));        
+        console.log(responseText);
+      },  
+      "html"
+    );
+  });  
 
 });
