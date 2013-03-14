@@ -48,6 +48,11 @@ if($action == "gpu_throw") {
   }
 }
 
+if($action == "gpu_predict") {
+  $cmd = "./exec/predict_gpu --c1 {$c1} --c2 {$c2} --c3 {$c3} --c4 {$c4} --c5 {$c5}";
+}
+
+
 if ($cmd) {
 
   $output = shell_exec($cmd);

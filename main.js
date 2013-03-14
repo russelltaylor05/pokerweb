@@ -147,7 +147,6 @@ function buildAnalyzeDetails(responseText)
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
   html += "<dt>Rank</dt><dd>"+obj.Rank+"</dd>";
-  html += "<dt>Odds</dt><dd>"+obj.Win+"%</dd>";
   html += "<dt>Kernel Time</dt><dd>"+obj.Kernel_Time+"ms</dd>";
   html += "<dt>Comparisons</dt><dd>"+obj.Analyze_Res+"</dd>";
   html += "</dl>"
@@ -171,13 +170,30 @@ function buildGPUThrowDetails(responseText)
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
 
-  html += "<dt>Odds</dt><dd>" + obj.Win + "%</dd>";
   html += "<dt>GPU Time</dt><dd>" + obj.Kernel_Time + "ms</dd>";
   html += "<dt>CPU Time</dt><dd>12 minutes</dd>";
   html += "<dt>Thread Count</dt><dd>" + numberWithCommas(obj.Thread_cnt) +"</dd>";
   html += "</dl>"    
   return html;  
 }
+
+function buildPredictResults(responseText)
+{
+  var obj = $.parseJSON(responseText);
+  return obj.best_win + "%";
+}
+
+function buildGPUPredictDetails(responseText)
+{
+  var obj = $.parseJSON(responseText);
+  var html= "<dl>";
+  html += "<dt>Odds</dt><dd>"+obj.best_win+"%</dd>";
+  html += "<dt>Best Throw</dt><dd>"+obj.best_throw+"</dd>";
+  html += "<dt>Kernel Time</dt><dd>"+obj.Kernel_Time+"ms</dd>";
+  html += "</dl>"
+  return html;
+}
+
 
 
 /**********/
@@ -200,8 +216,10 @@ $(document).ready(function() {
     displayHand(hand);
     $("#analyze-results .content").html("<p>No Results</p>");
     $("#throw-results .content").html("<p>No Results</p>");      
+    $("#predict-results .content").html("<p>No Results</p>");      
     $("#throw-results h2 span").html("");    
     $("#analyze-results h2 span").html("");    
+    $("#predict-results h2 span").html("");    
   });
 
   $("#analyze-hand").click(function(event){
@@ -213,7 +231,7 @@ $(document).ready(function() {
     var gpuParams = params + "&action=gpu_analyze";
     var cpuParams = params + "&action=cpu_analyze";
 
-    $("#analyze-results .content").html("<p>Loading</p>");
+    $("#analyze-results .content").html("<p class='loading'><img src='/images/loader.gif' />Loading</p>");
     $("#analyze-results h2 span").html("");
     $.get(  
       loadUrl, gpuParams,  
@@ -245,7 +263,7 @@ $(document).ready(function() {
     var params = parseParams(hand, throwAway);
     params += "&action=gpu_throw";
     
-    $("#throw-results .content").html("<p>Loading</p>");
+    $("#throw-results .content").html("<p class='loading'><img src='/images/loader.gif' />Loading</p>");
     $("#throw-results h2 span").html("");
     $.get( 
       loadUrl, params,  
@@ -257,5 +275,28 @@ $(document).ready(function() {
       "html"
     );
   });  
+
+  $("#predict").click(function(event){
+    event.preventDefault();  
+    var tIndex;
+    var throwAway =  grabThrowaway();
+    var loadUrl = 'poker.php';
+    var params = parseParams(hand, throwAway);
+    params += "&action=gpu_predict";
+    
+    $("#predict-results .content").html("<p class='loading'><img src='/images/loader.gif' />Loading</p>");
+    $("#predict-results h2 span").html("");
+    $.get( 
+      loadUrl, params,  
+      function(responseText){  
+        $("#raw-results textarea").prepend(responseText + "\n");  
+        $("#predict-results .content").html(buildGPUPredictDetails(responseText));        
+        $("#predict-results h2 span").html(buildPredictResults(responseText));        
+      },  
+      "html"
+    );
+  });  
+
+
 
 });

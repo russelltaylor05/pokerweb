@@ -24,6 +24,12 @@ ini_set('display_errors', '1');
       <h2>Throw Card Results <span></span></h2>
       <div class="content"><p>NO Results</p></div>
     </div>
+
+    <div id="predict-results" class="results">
+      <h2>Prediction Results <span></span></h2>
+      <div class="content"><p>NO Results</p></div>
+    </div>
+
   </div>
 
   <div class="left">
