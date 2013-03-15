@@ -61,15 +61,20 @@ function numberWithCommas(x) {
 function dealCards() 
 {
   var hand = Array();
-  var n, index;
-  
+  var index;
+  var tempDeck = deck.slice();
+  var tempCard = 0;
+
+  console.log(tempDeck);
+
   for(var i = 0; i < 5; i++){
-    index = 1;
-    while(index > 0) {
-      n = Math.floor(Math.random()*51);
-      index = hand.indexOf(deck[n]);
+    while(tempCard == 0) {
+      index = Math.floor(Math.random()*51);
+      tempCard = tempDeck[index];
     }
-    hand[i] = deck[n];
+    hand[i] = tempDeck[index];
+    tempDeck[index] = 0;
+    tempCard = 0;
   }
   return hand;
 }
@@ -147,7 +152,7 @@ function buildAnalyzeDetails(responseText)
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
   html += "<dt>Rank</dt><dd>"+obj.Rank+"</dd>";
-  html += "<dt>Kernel Time</dt><dd>"+obj.Kernel_Time+"ms</dd>";
+  html += "<dt>GPU Time</dt><dd>"+obj.Kernel_Time+"ms</dd>";
   html += "<dt>Comparisons</dt><dd>"+obj.Analyze_Res+"</dd>";
   html += "</dl>"
   return html;
@@ -170,9 +175,10 @@ function buildGPUThrowDetails(responseText)
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
 
-  html += "<dt>GPU Time</dt><dd>" + obj.Kernel_Time + "ms</dd>";
+  html += "<dt>GPU Time</dt><dd>" + numberWithCommas(obj.Kernel_Time) + "ms</dd>";
   html += "<dt>CPU Time</dt><dd>12 minutes</dd>";
-  html += "<dt>Thread Count</dt><dd>" + numberWithCommas(obj.Thread_cnt) +"</dd>";
+  html += "<dt>Comparisons</dt><dd>" + numberWithCommas(obj.Thread_cnt) +"</dd>";
+  html += "<dt>Throw Res</dt><dd>" + numberWithCommas(obj.Throw_Res) +"</dd>";
   html += "</dl>"    
   return html;  
 }
@@ -188,8 +194,9 @@ function buildGPUPredictDetails(responseText)
   var obj = $.parseJSON(responseText);
   var html= "<dl>";
   html += "<dt>Odds</dt><dd>"+obj.best_win+"%</dd>";
-  html += "<dt>Best Throw</dt><dd>"+obj.best_throw+"</dd>";
-  html += "<dt>Kernel Time</dt><dd>"+obj.Kernel_Time+"ms</dd>";
+  html += "<dt>Best Throw</dt><dd>"+obj.best_throw+" &nbsp;</dd>";
+  html += "<dt>GPU Time</dt><dd>" + numberWithCommas(obj.Kernel_Time) +"ms</dd>";
+  html += "<dt>Comparisons</dt><dd>" + numberWithCommas(parseInt(obj.Thread_cnt) * 32) +"</dd>";
   html += "</dl>"
   return html;
 }
@@ -201,14 +208,12 @@ function buildGPUPredictDetails(responseText)
 /**********/
 
 
-$(document).ready(function() {
-
-
+$(document).ready(function() 
+{
   var hand = dealCards();
   var throwAway;
 
   displayHand(hand);
-  throwActions();
   
   $("#deal-cards").click(function(event){
     event.preventDefault();
@@ -221,6 +226,37 @@ $(document).ready(function() {
     $("#analyze-results h2 span").html("");    
     $("#predict-results h2 span").html("");    
   });
+
+  $("#debug").click(function(event){
+    event.preventDefault();
+    $('#raw-results').toggle();
+    
+  });
+  
+  $("#card-set").submit(function(){
+
+    var tempHand = Array();
+    tempHand[0] = $("#card-set #c1").val();
+    tempHand[1] = $("#card-set #c2").val();
+    tempHand[2] = $("#card-set #c3").val();  
+    tempHand[3] = $("#card-set #c4").val();      
+    tempHand[4] = $("#card-set #c5").val();      
+
+    console.log(tempHand);  
+    for(card in tempHand) {
+      console.log(deck);
+      console.log(tempHand[card] + ".  ." + deck.indexOf(tempHand[card]));
+      if(deck.indexOf(tempHand[card]) < 0) {
+        alert("Bad Card Values: " + tempHand[card]);
+        return false;
+      }
+    }
+    
+    hand = tempHand.slice();
+    displayHand(hand);
+    return false;
+  });
+
 
   $("#analyze-hand").click(function(event){
     event.preventDefault();
