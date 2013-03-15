@@ -78,18 +78,58 @@ p.loading img {margin: 0 5px 0 0 ;}
 .card.suit-s {background-position-y: -98px;}
 .card.suit-h {background-position-y: -196px;}
 .card.suit-d {background-position-y: -294px;}
-.card.card-2 {background-position-x: -73px;}
-.card.card-3 {background-position-x: -146px;}
-.card.card-4 {background-position-x: -219px;}
-.card.card-5 {background-position-x: -292px;}
-.card.card-6 {background-position-x: -365px;}
-.card.card-7 {background-position-x: -438px;}
-.card.card-8 {background-position-x: -511px;}
-.card.card-9 {background-position-x: -584px;}
-.card.card-T {background-position-x: -657px;}
-.card.card-J {background-position-x: -730px;}
-.card.card-Q {background-position-x: -803px;}
-.card.card-K {background-position-x: -876px;}
+
+.card.card-2 {background-position:-73px 0px;}
+.card.card-3 {background-position:-146px 0px;}
+.card.card-4 {background-position:-219px 0px;}
+.card.card-5 {background-position:-292px 0px;}
+.card.card-6 {background-position:-365px 0px;}
+.card.card-7 {background-position:-438px 0px;}
+.card.card-8 {background-position:-511px 0px;}
+.card.card-9 {background-position:-584px 0px;}
+.card.card-T {background-position:-657px 0px;}
+.card.card-J {background-position:-730px 0px;}
+.card.card-Q {background-position:-803px 0px;}
+.card.card-K {background-position:-876px 0px;}
+
+.card.card-2.suit-s {background-position: -73px  -98px;}
+.card.card-3.suit-s {background-position: -146px -98px;}
+.card.card-4.suit-s {background-position: -219px -98px;}
+.card.card-5.suit-s {background-position: -292px -98px;}
+.card.card-6.suit-s {background-position: -365px -98px;}
+.card.card-7.suit-s {background-position: -438px -98px;}
+.card.card-8.suit-s {background-position: -511px -98px;}
+.card.card-9.suit-s {background-position: -584px -98px;}
+.card.card-T.suit-s {background-position: -657px -98px;}
+.card.card-J.suit-s {background-position: -730px -98px;}
+.card.card-Q.suit-s {background-position: -803px -98px;}
+.card.card-K.suit-s {background-position: -876px -98px;}
+
+.card.card-2.suit-h {background-position: -73px  -196px;}
+.card.card-3.suit-h {background-position: -146px -196px;}
+.card.card-4.suit-h {background-position: -219px -196px;}
+.card.card-5.suit-h {background-position: -292px -196px;}
+.card.card-6.suit-h {background-position: -365px -196px;}
+.card.card-7.suit-h {background-position: -438px -196px;}
+.card.card-8.suit-h {background-position: -511px -196px;}
+.card.card-9.suit-h {background-position: -584px -196px;}
+.card.card-T.suit-h {background-position: -657px -196px;}
+.card.card-J.suit-h {background-position: -730px -196px;}
+.card.card-Q.suit-h {background-position: -803px -196px;}
+.card.card-K.suit-h {background-position: -876px -196px;}
+
+.card.card-2.suit-d {background-position: -73px  -294px;}
+.card.card-3.suit-d {background-position: -146px -294px;}
+.card.card-4.suit-d {background-position: -219px -294px;}
+.card.card-5.suit-d {background-position: -292px -294px;}
+.card.card-6.suit-d {background-position: -365px -294px;}
+.card.card-7.suit-d {background-position: -438px -294px;}
+.card.card-8.suit-d {background-position: -511px -294px;}
+.card.card-9.suit-d {background-position: -584px -294px;}
+.card.card-T.suit-d {background-position: -657px -294px;}
+.card.card-J.suit-d {background-position: -730px -294px;}
+.card.card-Q.suit-d {background-position: -803px -294px;}
+.card.card-K.suit-d {background-position: -876px -294px;}
 
 
 
